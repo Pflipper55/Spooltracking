@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: spool_db
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"
+    secrets:
+      - db_password
+    volumes:
+      - db_data:/var/opt/mssql
+    command: /bin/bash -c "export SA_PASSWORD=$(cat /run/secrets/db_password) && /opt/mssql/bin/sqlservr"
+
+  api:
+    build:
+      context: ./SpooltrackingAPI
+      dockerfile: Dockerfile
+    image: spooltrackingapi:local
+    depends_on:
+      - db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    secrets:
+      - db_password
+    entrypoint: >
+      /bin/bash -c 'export SPOOL_DB_CONN="Server=db,1433;Database=SpooltrackingDb;User Id=sa;Password=$(cat /run/secrets/db_password);TrustServerCertificate=True;" && dotnet SpooltrackingAPI.dll'
+    ports:
+      - "5000:80"
+    restart: unless-stopped
+
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt
+
+volumes:
+  db_data:
+    # Use named volume for SQL Server data to persist across restarts
+    # Optionally set driver_opts or driver if you want a specific driver
+    # driver: local
