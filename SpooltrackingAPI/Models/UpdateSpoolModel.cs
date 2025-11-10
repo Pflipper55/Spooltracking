@@ -1,4 +1,4 @@
-namespace SpooltrackingAPI.Models.ApiRequestModels;
+namespace SpooltrackingAPI.Models;
 
 public sealed class UpdateSpoolModel
 {

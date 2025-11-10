@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SpooltrackingAPI.Database;
+using SpooltrackingAPI.Helpers;
 using SpooltrackingAPI.Models;
 using SpooltrackingAPI.Models.ApiRequestModels;
 
@@ -147,11 +148,58 @@ public class SpoolController : ControllerBase
             this._context.SaveChanges();
             return this.Ok();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             this.Logger.LogError("An error occured during saving to the db: {ex}", ex);
             return this.StatusCode(500);
         }
     }
+
+    [HttpPost]
+    [Route("create")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public ActionResult CreateSpool(CreateSpoolModel createModel)
+    {
+        this._context.Add(SpoolFactory.Create(createModel.BrandId, createModel.Color, createModel.Material, createModel.Weight));
+        try
+        {
+            this._context.SaveChanges();
+            return this.Ok();
+        }
+        catch (Exception ex)
+        {
+            this.Logger.LogError("An error occured during saving to the db: {ex}", ex);
+            return this.StatusCode(500);
+        }
+    }
+    
+    [HttpPost]
+    [Route("delete")]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public ActionResult DeleteSpool(Guid id)
+    {
+        var spool = this._context.Spools.SingleOrDefault(spool => spool.Id == id);
+
+        if (spool is null)
+        {
+            this.Logger.LogWarning("No spool with id: {id} found", id);
+            return this.NotFound();
+        }
+
+        this._context.Remove(spool);
+
+        try
+        {
+            this._context.SaveChanges();
+            return this.Ok();
+        }
+        catch (Exception ex)
+        {
+            this.Logger.LogError("An error occured during saving to the db: {ex}", ex);
+            return this.StatusCode(500);
+        }
+    }
+    
 
 }
