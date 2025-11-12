@@ -1,1 +1,89 @@
-<p>create-spool works!</p>
+<p-dialog
+  [(visible)]="visible"
+  [header]="'Create New Spool'"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+  [breakpoints]="{ '960px': '75vw', '640px': '90vw' }"
+>
+  <div class="dialog-content">
+    <!-- Error Message -->
+    @if (error) {
+      <div class="error-message">
+        <p>{{ error }}</p>
+      </div>
+    }
+
+    <!-- Brand Selection -->
+    <div class="form-group">
+      <label for="brand">Brand *</label>
+      <p-select
+        id="brand"
+        [(ngModel)]="formData.brandId"
+        [options]="brands"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Select a brand"
+        [showClear]="true"
+      ></p-select>
+    </div>
+
+    <!-- Material (Optional) -->
+    <div class="form-group">
+      <label for="material">Material</label>
+      <input
+        id="material"
+        type="text"
+        pInputText
+        [(ngModel)]="formData.material"
+        placeholder="e.g., PLA, PETG, ABS"
+      />
+    </div>
+
+    <!-- Color (Optional) -->
+    <div class="form-group">
+      <label for="color">Color</label>
+      <input
+        id="color"
+        type="text"
+        pInputText
+        [(ngModel)]="formData.color"
+        placeholder="e.g., Red, Blue, Green"
+      />
+    </div>
+
+    <!-- Weight (Required) -->
+    <div class="form-group">
+      <label for="weight">Weight (g) *</label>
+      <p-inputNumber
+        id="weight"
+        [(ngModel)]="formData.weight"
+        [useGrouping]="false"
+        placeholder="Enter weight in grams"
+        [min]="0.1"
+        [step]="0.1"
+      ></p-inputNumber>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hideDialog()"
+      [disabled]="loading"
+    ></button>
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="Create"
+      icon="pi pi-check"
+      (click)="onSubmit()"
+      [loading]="loading"
+    ></button>
+  </ng-template>
+</p-dialog>

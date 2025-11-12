@@ -1,6 +1,6 @@
 <div class="ml-3">
     <h1>Dashboard</h1>
-    <p class="subtitle">{{ getSpoolCount() }} Spools verfügbar</p>
+    <p class="subtitle">{{ getSpoolCount() }} Spools</p>
 </div>
 
 <div *ngIf="this.spools.length == 0">
@@ -34,7 +34,7 @@
           <span class="value">{{ spool.material }}</span>
         </div>
         <div class="content-item">
-          <span class="label">Gewicht:</span>
+          <span class="label">Weight:</span>
           <span class="value">{{ spool.weight }} g</span>
         </div>
       </div>

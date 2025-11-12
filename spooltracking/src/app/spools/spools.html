@@ -1,41 +1,56 @@
 <div class="flex">
     <p-menu [model]="menuItems" class="pt-4"></p-menu>
     <div class="ml-5">
-        <h1 class="ml-3">Spools</h1>
-        <div *ngIf="this.spools.length > 0" class="spool-grid">
-            <p-card *ngFor="let spool of this.spools" class="spool-card">
-                <ng-template #header>
-                    <div class="card-header">
-                        <div>
-                            <h2 class="brand-name">{{ spool.brand?.name ?? 'Unknown Brand'}}</h2>
-                            <p class="color-label">{{ spool.color ?? 'Unknown Color' }}</p>
-                        </div>
-                        <div class="color-display">
-                            <div class="color-box" [style.backgroundColor]="getColorCode(spool.color)" 
-                                [title]="spool.color ?? 'Unknown Color'"></div>
-                        </div>
-                    </div>
-                </ng-template>
-                <ng-template pTemplate="content">
-                <div class="card-content">
-                    <div class="content-item">
-                    <span class="label">Material:</span>
-                    <span class="value">{{ spool.material }}</span>
-                    </div>
-                    <div class="content-item">
-                    <span class="label">Gewicht:</span>
-                    <span class="value">{{ spool.weight }} g</span>
-                    </div>
+        @if (isLoading) {
+            <div class="spinner-container">
+                <p-progressSpinner></p-progressSpinner>
+            </div>
+        } @else {
+            <h1 class="ml-3">Spools</h1>
+            @if (this.spools.length > 0) {
+                <div class="spool-grid">
+                    @for (spool of this.spools; track spool.id) {
+                        <p-card class="spool-card">
+                            <ng-template #header>
+                                <div class="card-header">
+                                    <div>
+                                        <h2 class="brand-name">{{ spool.brand?.name ?? 'Unknown Brand'}}</h2>
+                                        <p class="color-label">{{ spool.color ?? 'Unknown Color' }}</p>
+                                    </div>
+                                    <div class="color-display">
+                                        <div class="color-box" [style.backgroundColor]="getColorCode(spool.color)" 
+                                            [title]="spool.color ?? 'Unknown Color'"></div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="content">
+                            <div class="card-content">
+                                <div class="content-item">
+                                <span class="label">Material:</span>
+                                <span class="value">{{ spool.material }}</span>
+                                </div>
+                                <div class="content-item">
+                                <span class="label">Gewicht:</span>
+                                <span class="value">{{ spool.weight }} g</span>
+                                </div>
+                            </div>
+                            </ng-template>
+                        </p-card>
+                    }
                 </div>
-                </ng-template>
-            </p-card>
-        </div>
-        <h1 class="mt-5 ml-3">Brands</h1>
-        <div *ngIf="this.brands.length > 0" class="spool-grid">
-            <p-card *ngFor="let brand of this.brands" class="spool-card">
-                <h2 class="brand-name">{{ brand.name }}</h2>
-            </p-card>
-        </div>
+            }
+            <h1 class="mt-5 ml-3">Brands</h1>
+            @if (this.brands.length > 0) {
+                <div class="spool-grid">
+                    @for (brand of this.brands; track brand.id) {
+                        <p-card class="spool-card">
+                            <h2 class="brand-name">{{ brand.name }}</h2>
+                        </p-card>
+                    }
+                </div>
+            }
+        }
     </div>
 </div>
 
+<app-create-spool (spoolAdded)="loadData()"></app-create-spool>

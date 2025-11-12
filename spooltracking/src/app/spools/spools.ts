@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Spool, SpoolBrand } from '../services/api-clients';
 import { ApiService } from '../services/api-service';
 import { CardModule } from 'primeng/card';
@@ -6,17 +6,23 @@ import { colorNameToCode } from 'color-name-to-code';
 import { CommonModule } from '@angular/common';
 import { MenuItem } from 'primeng/api';
 import { Menu } from 'primeng/menu';
+import { ButtonModule } from 'primeng/button';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { CreateSpool } from '../modals/create-spool/create-spool';
 
 
 @Component({
   selector: 'app-spools',
-  imports: [CommonModule,CardModule, Menu],
+  imports: [CommonModule, CardModule, Menu, ButtonModule, ProgressSpinnerModule, CreateSpool],
   templateUrl: './spools.html',
   styleUrl: './spools.css',
   standalone: true,
 })
 export class SpoolsComponent implements OnInit {
+  @ViewChild(CreateSpool) createSpoolModal!: CreateSpool;
+  
   menuItems: MenuItem[] = [];
+  isLoading: boolean = false;
 
   spools: Spool[] = [];
   brands: SpoolBrand[] = [];
@@ -27,7 +33,7 @@ export class SpoolsComponent implements OnInit {
       { 
         label: 'Spools',
         items: [
-          { label: 'Add Spool', icon: 'pi pi-fw pi-plus' },
+          { label: 'Add Spool', icon: 'pi pi-fw pi-plus', command: () => this.onOpenCreateSpool() },
           { label: 'Edit Spool', icon: 'pi pi-fw pi-pencil' },
           { label: 'Remove Spool', icon: 'pi pi-fw pi-trash' },
         ]
@@ -49,6 +55,7 @@ export class SpoolsComponent implements OnInit {
 
   async loadData(): Promise<void> {
     try {
+      this.isLoading = true;
       this.error = null;
 
       // Paralleles Laden von Spools und Brands
@@ -63,6 +70,8 @@ export class SpoolsComponent implements OnInit {
       this.error =
         err instanceof Error ? err.message : 'Error loading data from server';
       console.error('Failed to load dashboard data:', err);
+    } finally {
+      this.isLoading = false;
     }
   }
 
@@ -74,5 +83,9 @@ export class SpoolsComponent implements OnInit {
     } catch {
       return '#cccccc';
     }
+  }
+
+  onOpenCreateSpool(): void {
+    this.createSpoolModal.showDialog();
   }
 }
