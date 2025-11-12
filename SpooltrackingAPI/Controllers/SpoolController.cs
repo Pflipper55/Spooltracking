@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SpooltrackingAPI.Database;
 using SpooltrackingAPI.Helpers;
 using SpooltrackingAPI.Models;
@@ -30,7 +31,7 @@ public class SpoolController : ControllerBase
     {
         this.Logger.LogInformation("SpoolController.GetAll - Get all spools");
 
-        var allSpools = this._context.Spools.ToArray();
+        var allSpools = this._context.Spools.Include(s => s.Brand).ToArray();
         if (allSpools.Length == 0)
         {
             this.Logger.LogInformation("No spools found in DB");
