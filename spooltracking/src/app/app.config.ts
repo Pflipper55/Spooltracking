@@ -7,6 +7,7 @@ import { Configuration } from './services/api-clients/configuration';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 import { firstValueFrom } from 'rxjs';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 // Global config object
 let apiConfig = {
@@ -45,6 +46,7 @@ export const appConfig: ApplicationConfig = {
       provide: Configuration,
       useValue: new Configuration({ basePath: getApiBaseUrl() })
     },
+    provideAnimationsAsync(),
     providePrimeNG({
       theme: {
         preset: Aura

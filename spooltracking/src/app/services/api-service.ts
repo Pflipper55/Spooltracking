@@ -44,9 +44,7 @@ export class ApiService {
       // Keep the default URL if config loading fails
     }
   }
-
-  // ============= SPOOL METHODS =============
-
+  
   /**
    * Get all spools
    */

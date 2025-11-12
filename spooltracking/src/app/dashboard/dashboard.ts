@@ -17,7 +17,6 @@ import { colorNameToCode } from 'color-name-to-code';
 export class DashboardComponent implements OnInit {
   spools: Spool[] = [];
   brands: SpoolBrand[] = [];
-  loading = true;
   error: string | null = null;
 
   constructor(private apiService: ApiService) {}
@@ -28,7 +27,6 @@ export class DashboardComponent implements OnInit {
 
   async loadData(): Promise<void> {
     try {
-      this.loading = true;
       this.error = null;
 
       // Paralleles Laden von Spools und Brands
@@ -43,8 +41,6 @@ export class DashboardComponent implements OnInit {
       this.error =
         err instanceof Error ? err.message : 'Error loading data from server';
       console.error('Failed to load dashboard data:', err);
-    } finally {
-      this.loading = false;
     }
   }
 

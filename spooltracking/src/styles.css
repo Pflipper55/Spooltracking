@@ -7,7 +7,10 @@ body .p-component
   font-family: "Open Sans", sans-serif;
 }
 
-/* Bootstrap-like Margin Utilities */
+.flex {
+  display: flex;
+}
+
 /* Margin Top (mt-*) */
 .mt-1 { margin-top: 0.25rem !important; }
 .mt-2 { margin-top: 0.5rem !important; }
@@ -72,3 +75,7 @@ body .p-component
 .mr-auto { margin-right: auto !important; }
 .mx-auto { margin-left: auto !important; margin-right: auto !important; }
 .my-auto { margin-top: auto !important; margin-bottom: auto !important; }
+
+.pt-4 {
+  padding-top: 1.5rem !important;
+}

@@ -1,3 +1,4 @@
 {
-    "dotnet.defaultSolution": "SpooltrackingAPI.sln"
+    "dotnet.defaultSolution": "SpooltrackingAPI.sln",
+    
 }
