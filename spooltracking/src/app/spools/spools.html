@@ -24,16 +24,38 @@
                                 </div>
                             </ng-template>
                             <ng-template pTemplate="content">
-                            <div class="card-content">
-                                <div class="content-item">
-                                <span class="label">Material:</span>
-                                <span class="value">{{ spool.material }}</span>
+                                <div class="card-content">
+                                    <div class="content-item">
+                                        <span class="label">Material:</span>
+                                        <span class="value">{{ spool.material }}</span>
+                                    </div>
+                                    <div class="content-item">
+                                        <span class="label">Weight:</span>
+                                        <span class="value">{{ spool.weight }} g</span>
+                                    </div>
                                 </div>
-                                <div class="content-item">
-                                <span class="label">Weight:</span>
-                                <span class="value">{{ spool.weight }} g</span>
+                            </ng-template>
+                            <ng-template #footer>
+                                <div class="flex gap-1">
+                                    <p-button
+                                        pRipple
+                                        type="button"
+                                        label="Edit"
+                                        icon="pi pi-pencil"
+                                        class="p-button-text"
+                                        (click)="openEditSpoolModalFromCard(spool)">
+                                    </p-button>
+                                    <p-button
+                                        pRipple
+                                        type="button"
+                                        label="Delete"
+                                        icon="pi pi-trash"
+                                        severity="danger"
+                                        class="p-button-text"
+                                        (click)="confirmDeleteSpool(spool)"
+                                    >
+                                    </p-button>
                                 </div>
-                            </div>
                             </ng-template>
                         </p-card>
                     }
@@ -54,3 +76,4 @@
 </div>
 
 <app-create-spool (spoolAdded)="loadData()"></app-create-spool>
+<app-edit-spool [allSpools]="spools" (spoolEdited)="loadData()"></app-edit-spool>

@@ -9,6 +9,7 @@ import { CreateSpoolModel } from './api-clients/model/createSpoolModel';
 import { UpdateSpoolModel } from './api-clients/model/updateSpoolModel';
 import { CreateSpoolBrandModel } from './api-clients/model/createSpoolBrandModel';
 import { UpdateSpoolBrandModel } from './api-clients/model/updateSpoolBrandModel';
+import { Configuration } from './api-clients';
 
 interface ApiConfig {
   apiHost: string;
@@ -21,28 +22,10 @@ interface ApiConfig {
 export class ApiService {
   private spoolService: SpoolService;
   private spoolBrandService: SpoolBrandService;
-  private apiBaseUrl: string = 'http://localhost:5000';
 
-  constructor(private httpClient: HttpClient) {
-    this.loadConfig();
-    this.spoolService = new SpoolService(this.httpClient, this.apiBaseUrl, undefined);
-    this.spoolBrandService = new SpoolBrandService(this.httpClient, this.apiBaseUrl, undefined);
-  }
-
-  /**
-   * Load API configuration from config.json
-   */
-  private async loadConfig(): Promise<void> {
-    try {
-      const config = await firstValueFrom(this.httpClient.get<ApiConfig>('config.json'));
-      this.apiBaseUrl = `http://${config.apiHost}:${config.apiPort}`;
-      // Update service base paths
-      this.spoolService = new SpoolService(this.httpClient, this.apiBaseUrl, undefined);
-      this.spoolBrandService = new SpoolBrandService(this.httpClient, this.apiBaseUrl, undefined);
-    } catch (error) {
-      console.warn('Could not load config.json, using default API URL', error);
-      // Keep the default URL if config loading fails
-    }
+  constructor(private httpClient: HttpClient, config: Configuration) {
+    this.spoolService = new SpoolService(this.httpClient, config.basePath ?? '', undefined);
+    this.spoolBrandService = new SpoolBrandService(this.httpClient, config.basePath ?? '', undefined);
   }
   
   /**

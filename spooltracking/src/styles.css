@@ -11,6 +11,10 @@ body .p-component
   display: flex;
 }
 
+.gap-1 {
+  gap: 0.25rem;
+}
+
 /* Margin Top (mt-*) */
 .mt-1 { margin-top: 0.25rem !important; }
 .mt-2 { margin-top: 0.5rem !important; }

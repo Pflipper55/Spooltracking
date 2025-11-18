@@ -1,0 +1,58 @@
+.dialog-content {
+  padding: 20px 0;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-group input,
+.form-group p-select,
+.form-group p-inputNumber {
+  width: 100%;
+}
+
+.error-message {
+  background-color: #fee;
+  border: 1px solid #fcc;
+  color: #c33;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.error-message p {
+  margin: 0;
+}
+
+.mt-4 {
+  margin-top: 16px;
+}
+
+:host ::ng-deep {
+  .p-dialog-content {
+    padding: 20px;
+  }
+
+  .p-dialog-footer {
+    padding: 20px;
+    text-align: right;
+    gap: 12px;
+  }
+
+  .p-button + .p-button {
+    margin-left: 8px;
+  }
+
+  .p-select-list-container {
+    overflow-y: visible;
+  }
+}

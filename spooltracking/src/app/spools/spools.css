@@ -28,8 +28,7 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border-radius: 8px;
   overflow: hidden;
-  max-height: 13rem;
-  min-width: 10rem;
+  min-width: auto;
 }
 
 .spool-card:hover {

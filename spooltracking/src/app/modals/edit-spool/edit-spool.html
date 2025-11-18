@@ -1,0 +1,163 @@
+<p-dialog
+  [(visible)]="visible"
+  [header]="'Edit Spool'"
+  [modal]="true"
+  [style]="{ width: '40vw' }"
+  [breakpoints]="{ '960px': '75vw', '640px': '90vw' }"
+>
+  <div class="dialog-content">
+    <!-- Step 1: Spool Selection -->
+    @if (spoolSelectionStep) {
+      <div>
+        <h3>Select Spool to Edit</h3>
+        
+        <!-- Error Message -->
+        @if (error) {
+          <div class="error-message">
+            <p>{{ error }}</p>
+          </div>
+        }
+
+        <!-- Spool Dropdown -->
+        <div class="form-group">
+          <label for="spools">Spool *</label>
+          <p-select
+            id="spools"
+            [(ngModel)]="selectedSpoolId"
+            [options]="allSpools()"
+            optionLabel="material"
+            optionValue="id"
+            placeholder="Select a spool to edit"
+            [showClear]="true"
+          >
+            <ng-template let-spool pTemplate="item">
+              <span>{{ spool.brand?.name }} - {{ spool.color }} ({{ spool.material }}, {{ spool.weight }}g)</span>
+            </ng-template>
+          </p-select>
+        </div>
+
+        <!-- Select Button -->
+        <button
+          pButton
+          pRipple
+          type="button"
+          label="Select & Edit"
+          icon="pi pi-check"
+          (click)="onSelectButtonClick()"
+          class="mt-4"
+          [disabled]="!selectedSpoolId"
+        ></button>
+      </div>
+    }
+
+    <!-- Step 2: Edit Form -->
+    @if (!spoolSelectionStep && selectedSpool) {
+      <div>
+        <h3>Edit: {{ selectedSpool.brand?.name }} - {{ selectedSpool.color }}</h3>
+        
+        <!-- Error Message -->
+        @if (error) {
+          <div class="error-message">
+            <p>{{ error }}</p>
+          </div>
+        }
+
+        <!-- Brand Selection -->
+        <div class="form-group">
+          <label for="brand">Brand *</label>
+          <p-select
+            id="brand"
+            [(ngModel)]="formData.brandId"
+            [options]="brands"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select a brand"
+            [showClear]="true"
+          ></p-select>
+        </div>
+
+        <!-- Material -->
+        <div class="form-group">
+          <label for="material">Material</label>
+          <input
+            id="material"
+            type="text"
+            pInputText
+            [(ngModel)]="formData.material"
+            placeholder="e.g., PLA, PETG, ABS"
+          />
+        </div>
+
+        <!-- Color -->
+        <div class="form-group">
+          <label for="color">Color</label>
+          <input
+            id="color"
+            type="text"
+            pInputText
+            [(ngModel)]="formData.color"
+            placeholder="e.g., Red, Blue, Green"
+          />
+        </div>
+
+        <!-- Weight -->
+        <div class="form-group">
+          <label for="weight">Weight (g) *</label>
+          <p-inputNumber
+            id="weight"
+            [(ngModel)]="formData.weight"
+            [useGrouping]="false"
+            placeholder="Enter weight in grams"
+            [min]="0.1"
+            [step]="0.1"
+          ></p-inputNumber>
+        </div>
+      </div>
+    }
+  </div>
+
+  <ng-template pTemplate="footer">
+    @if (spoolSelectionStep) {
+      <button
+        pButton
+        pRipple
+        type="button"
+        label="Cancel"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="hideDialog()"
+        [disabled]="loading"
+      ></button>
+    } @else {
+      <button
+        pButton
+        pRipple
+        type="button"
+        label="Back"
+        icon="pi pi-arrow-left"
+        class="p-button-text"
+        (click)="goBackToSelection()"
+        [disabled]="loading"
+      ></button>
+      <button
+        pButton
+        pRipple
+        type="button"
+        label="Cancel"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="hideDialog()"
+        [disabled]="loading"
+      ></button>
+      <button
+        pButton
+        pRipple
+        type="button"
+        label="Update"
+        icon="pi pi-check"
+        (click)="onSubmit()"
+        [loading]="loading"
+      ></button>
+    }
+  </ng-template>
+</p-dialog>

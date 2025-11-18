@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Spool, SpoolBrand } from '../services/api-clients';
 import { ApiService } from '../services/api-service';
 import { CardModule } from 'primeng/card';
@@ -9,17 +9,18 @@ import { Menu } from 'primeng/menu';
 import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CreateSpool } from '../modals/create-spool/create-spool';
-
+import { EditSpool } from '../modals/edit-spool/edit-spool';
 
 @Component({
   selector: 'app-spools',
-  imports: [CommonModule, CardModule, Menu, ButtonModule, ProgressSpinnerModule, CreateSpool],
+  imports: [CommonModule, CardModule, Menu, ButtonModule, ProgressSpinnerModule, CreateSpool, EditSpool],
   templateUrl: './spools.html',
   styleUrl: './spools.css',
   standalone: true,
 })
 export class SpoolsComponent implements OnInit {
   @ViewChild(CreateSpool) createSpoolModal!: CreateSpool;
+  @ViewChild(EditSpool) editSpoolModal!: EditSpool;
   
   menuItems: MenuItem[] = [];
   isLoading: boolean = false;
@@ -34,7 +35,7 @@ export class SpoolsComponent implements OnInit {
         label: 'Spools',
         items: [
           { label: 'Add Spool', icon: 'pi pi-fw pi-plus', command: () => this.onOpenCreateSpool() },
-          { label: 'Edit Spool', icon: 'pi pi-fw pi-pencil' },
+          { label: 'Edit Spool', icon: 'pi pi-fw pi-pencil', command: () => this.onOpenEditSpool() },
           { label: 'Remove Spool', icon: 'pi pi-fw pi-trash' },
         ]
       },
@@ -55,7 +56,6 @@ export class SpoolsComponent implements OnInit {
 
   async loadData(): Promise<void> {
     try {
-      this.isLoading = true;
       this.error = null;
 
       // Paralleles Laden von Spools und Brands
@@ -70,8 +70,6 @@ export class SpoolsComponent implements OnInit {
       this.error =
         err instanceof Error ? err.message : 'Error loading data from server';
       console.error('Failed to load dashboard data:', err);
-    } finally {
-      this.isLoading = false;
     }
   }
 
@@ -88,4 +86,17 @@ export class SpoolsComponent implements OnInit {
   onOpenCreateSpool(): void {
     this.createSpoolModal.showDialog();
   }
+
+  onOpenEditSpool(): void {
+    this.editSpoolModal.showDialog();
+  }
+
+  openEditSpoolModalFromCard(spool: Spool): void {
+    this.editSpoolModal.showDialogWithSpool(spool);
+  }
+
+  confirmDeleteSpool(_t12: Spool) {
+    throw new Error('Method not implemented.');
+  }
 }
+
