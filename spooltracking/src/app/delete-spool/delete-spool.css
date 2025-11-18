@@ -53,7 +53,7 @@
   }
 
   .p-select-list-container {
-    overflow-y: visible;
+    overflow-y: visible !important;
   }
 
   .p-dialog-content{

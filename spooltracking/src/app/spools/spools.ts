@@ -10,10 +10,11 @@ import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CreateSpool } from '../modals/create-spool/create-spool';
 import { EditSpool } from '../modals/edit-spool/edit-spool';
+import { DeleteSpool } from '../delete-spool/delete-spool';
 
 @Component({
   selector: 'app-spools',
-  imports: [CommonModule, CardModule, Menu, ButtonModule, ProgressSpinnerModule, CreateSpool, EditSpool],
+  imports: [CommonModule, CardModule, Menu, ButtonModule, ProgressSpinnerModule, CreateSpool, EditSpool, DeleteSpool],
   templateUrl: './spools.html',
   styleUrl: './spools.css',
   standalone: true,
@@ -21,6 +22,7 @@ import { EditSpool } from '../modals/edit-spool/edit-spool';
 export class SpoolsComponent implements OnInit {
   @ViewChild(CreateSpool) createSpoolModal!: CreateSpool;
   @ViewChild(EditSpool) editSpoolModal!: EditSpool;
+  @ViewChild(DeleteSpool) deleteSpoolModal!: DeleteSpool;
   
   menuItems: MenuItem[] = [];
   isLoading: boolean = false;
@@ -36,7 +38,7 @@ export class SpoolsComponent implements OnInit {
         items: [
           { label: 'Add Spool', icon: 'pi pi-fw pi-plus', command: () => this.onOpenCreateSpool() },
           { label: 'Edit Spool', icon: 'pi pi-fw pi-pencil', command: () => this.onOpenEditSpool() },
-          { label: 'Remove Spool', icon: 'pi pi-fw pi-trash' },
+          { label: 'Remove Spool', icon: 'pi pi-fw pi-trash', command: () => this.onOpenDeleteSpool() },
         ]
       },
       {
@@ -91,12 +93,16 @@ export class SpoolsComponent implements OnInit {
     this.editSpoolModal.showDialog();
   }
 
+  onOpenDeleteSpool(): void {
+    this.deleteSpoolModal.showDialog();
+  }
+
   openEditSpoolModalFromCard(spool: Spool): void {
     this.editSpoolModal.showDialogWithSpool(spool);
   }
 
-  confirmDeleteSpool(_t12: Spool) {
-    throw new Error('Method not implemented.');
+  confirmDeleteSpool(spool: Spool) {
+    this.deleteSpoolModal.showDialogWithSpool(spool);
   }
 }
 

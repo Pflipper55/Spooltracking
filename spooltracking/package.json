@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "docker": "docker compose down && docker compose up --build --remove-orphans"
   },
   "prettier": {
     "printWidth": 100,

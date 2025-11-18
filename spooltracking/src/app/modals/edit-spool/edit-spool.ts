@@ -9,11 +9,12 @@ import { SelectModule } from 'primeng/select';
 import { ApiService } from '../../services/api-service';
 import { Spool, SpoolBrand } from '../../services/api-clients';
 import { UpdateSpoolModel } from '../../services/api-clients/model/updateSpoolModel';
+import { ListboxModule } from 'primeng/listbox';
 
 @Component({
   selector: 'app-edit-spool',
   standalone: true,
-  imports: [CommonModule, FormsModule, DialogModule, ButtonModule, InputTextModule, InputNumberModule, SelectModule],
+  imports: [CommonModule, FormsModule, DialogModule, ButtonModule, InputTextModule, InputNumberModule, SelectModule, ListboxModule],
   templateUrl: './edit-spool.html',
   styleUrl: './edit-spool.css',
 })
