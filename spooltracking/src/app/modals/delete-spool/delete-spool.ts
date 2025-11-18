@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
-import { SpoolBrand, Spool } from '../services/api-clients';
-import { ApiService } from '../services/api-service';
+import { SpoolBrand, Spool } from '../../services/api-clients';
+import { ApiService } from '../../services/api-service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';

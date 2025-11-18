@@ -10,7 +10,7 @@ import { ButtonModule } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CreateSpool } from '../modals/create-spool/create-spool';
 import { EditSpool } from '../modals/edit-spool/edit-spool';
-import { DeleteSpool } from '../delete-spool/delete-spool';
+import { DeleteSpool } from '../modals/delete-spool/delete-spool';
 
 @Component({
   selector: 'app-spools',
