@@ -67,6 +67,28 @@
                     @for (brand of this.brands; track brand.id) {
                         <p-card class="spool-card">
                             <h2 class="brand-name">{{ brand.name }}</h2>
+                            <ng-template pTemplate="footer">
+                                <div class="flex gap-1">
+                                    <p-button
+                                        pRipple
+                                        type="button"
+                                        label="Edit"
+                                        icon="pi pi-pencil"
+                                        class="p-button-text"
+                                        (click)="openEditBrandModalFromCard(brand)">
+                                    </p-button>
+                                    <p-button
+                                        pRipple
+                                        type="button"
+                                        label="Delete"
+                                        icon="pi pi-trash"
+                                        severity="danger"
+                                        class="p-button-text"
+                                        (click)="confirmDeleteBrand(brand)"
+                                    >
+                                    </p-button>
+                                </div>
+                            </ng-template>
                         </p-card>
                     }
                 </div>
@@ -78,3 +100,4 @@
 <app-create-spool (spoolAdded)="loadData()"></app-create-spool>
 <app-edit-spool [allSpools]="spools" (spoolEdited)="loadData()"></app-edit-spool>
 <app-delete-spool [allSpools]="spools" (spoolDeleted)="loadData()"></app-delete-spool>
+<app-create-spool-brand (spoolBrandAdded)="loadData()"></app-create-spool-brand>
